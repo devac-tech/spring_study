@@ -2,6 +2,7 @@ package raisetech.studentManagement.controller;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -48,7 +49,9 @@ public class StudentController {
 
   @GetMapping("/newStudent")
   public String newStudent(Model model) {
-    model.addAttribute("studentDetail", new StudentDetail());
+    StudentDetail studentDetail = new StudentDetail();
+    studentDetail.setStudentsCourses(Arrays.asList(new StudentsCourses()));
+    model.addAttribute("studentDetail", studentDetail);
     return "registerStudent";
   }
 
@@ -58,8 +61,7 @@ public class StudentController {
       return "registerStudent";
     }
     // 新規受講生情報を登録する処理を実装する
-    service.resisterStudent(studentDetail);
-//    service.insertStudentsCourses(studentsCourses);
+    service.registerStudent(studentDetail);
     return "redirect:/studentList";
   }
 }

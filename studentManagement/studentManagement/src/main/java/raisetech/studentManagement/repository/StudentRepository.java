@@ -31,24 +31,11 @@ public interface StudentRepository {
       "INSERT INTO students(id, name, kananame, nickname, email, address, age, gender, remark, is_deleted)"
       + "VALUES (#{id}, #{name}, #{kanaName}, #{nickname}, #{email}, #{address}, #{age}, #{gender}, #{remark}, false)")
   @Options(useGeneratedKeys = true, keyProperty = "id")
-  void resisterStudent(Student student);
+  void registerStudent(Student student);
 
-  @Insert("""
-      INSERT INTO students_courses (
-        id,
-        student_id,
-        course_name,
-        course_start_at,
-        course_end_at
-      )
-      VALUES (
-        #{id},
-        #{studentId},
-        #{courseName},
-        #{courseStartAt},
-        #{courseEndAt}
-      )
-      """)
-  void insertStudentsCourses(StudentsCourses studentsCourses);
+  @Insert("INSERT INTO students_courses (student_id, course_name, course_start_at, course_end_at)"
+      + "VALUES (#{studentId}, #{courseName}, #{courseStartAt}, #{courseEndAt})")
+  @Options(useGeneratedKeys = true, keyProperty = "id")
+  void registerStudentsCourses(StudentsCourses studentsCourses);
 
 }
