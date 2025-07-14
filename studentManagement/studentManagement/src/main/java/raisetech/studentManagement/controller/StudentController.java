@@ -1,5 +1,7 @@
 package raisetech.studentManagement.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +53,7 @@ public class StudentController {
    * @return 受講生
    */
   @GetMapping("/student/{id}")
-  public StudentDetail getStudent(@PathVariable String id) {
+  public StudentDetail getStudent(@PathVariable @Size(min=1, max=3) String id) {
     return service.searchStudent(id);
   }
 
