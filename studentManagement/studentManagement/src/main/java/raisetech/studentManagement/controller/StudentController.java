@@ -41,6 +41,16 @@ public class StudentController {
     this.service = service;
   }
 
+  @GetMapping("/exception")
+  public void exception() {
+    throw new TestException("このAPIは現在利用できません。古いURLです。");
+  }
+
+  @ExceptionHandler(TestException.class)
+  public ResponseEntity<String> handleTestException(TestException ex) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+  }
+
   /**
    * 受講生詳細の一覧検索です。
    * 全件検索を行うもので、条件指定は行わないものになります。
