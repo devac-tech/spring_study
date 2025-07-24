@@ -1,10 +1,10 @@
-INSERT INTO students (name, kananame, nickname, email, address, age, gender, is_deleted)
+INSERT INTO students (name, kananame, nickname, email, address, age, gender, remark, is_deleted)
 VALUES
-  ('山田太郎', 'ヤマダタロウ', 'タロウ', 'taro@example.com', '東京', 25, '男性', false),
-  ('鈴木一郎', 'スズキイチロウ', 'イチ', 'ichiro@example.com', '大阪', 36, '男性', false),
-  ('田中花子', 'タナカハナコ', 'ハナ', 'hana@example.com', '北海道', 22, '女性', false),
-  ('佐藤良子', 'サトウリョウコ', 'リョウ', 'ryoko@example.com', '福岡', 28, '女性', false),
-  ('伊藤悠',   'イトウハルカ',   'ハル', 'haruka@example.com', '愛知', 35, 'その他', false);
+  ('山田太郎', 'ヤマダタロウ', 'タロウ', 'taro@example.com', '東京', 25, '男性', '', false),
+  ('鈴木一郎', 'スズキイチロウ', 'イチ', 'ichiro@example.com', '大阪', 36, '男性', '初学者', false),
+  ('田中花子', 'タナカハナコ', 'ハナ', 'hana@example.com', '北海道', 22, '女性', '', false),
+  ('佐藤良子', 'サトウリョウコ', 'リョウ', 'ryoko@example.com', '福岡', 28, '女性', '', false),
+  ('伊藤悠',   'イトウハルカ',   'ハル', 'haruka@example.com', '愛知', 35, 'その他', '', false);
 
 INSERT INTO students_courses (student_id, course_name, course_start_at, course_end_at)
 VALUES
@@ -17,3 +17,15 @@ VALUES
   (4, 'マーケティングコース','2023-11-01 11:00:00', '2024-03-01 17:00:00'),
   (5, 'AWSコース',          '2023-12-01 12:00:00', '2024-04-01 14:00:00'),
   (5, 'Web制作コース',      '2024-01-01 13:00:00', '2024-05-01 19:00:00');
+
+INSERT INTO course_status (student_course_id, status)
+ VALUES
+ (1, '仮申込'),
+ (2, '本申込'),
+ (3, '受講中'),
+ (4, '受講終了'),
+ (5, '仮申込'),
+ (6, '受講中'),
+ (7, '本申込'),
+ (8, '受講終了'),
+ (9, '本申込');

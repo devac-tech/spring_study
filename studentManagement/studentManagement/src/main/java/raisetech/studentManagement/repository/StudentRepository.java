@@ -1,13 +1,12 @@
 package raisetech.studentManagement.repository;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Insert;
+import java.util.Set;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import raisetech.studentManagement.data.CourseStatus;
 import raisetech.studentManagement.data.Student;
 import raisetech.studentManagement.data.StudentCourse;
+import raisetech.studentManagement.dto.StudentSearchCondition;
 
 /**
  * 受講生テーブルと受講生コース情報テーブルと紐づくRepositoryです。
@@ -38,6 +37,29 @@ public interface StudentRepository {
   List<StudentCourse> searchStudentCourseList();
 
   /**
+   * 申込状況の全件検索を行います。
+   *
+   * @return 申込状況（全件）
+   */
+  List<CourseStatus> searchCourseStatusList();
+
+  /**
+   * 受講生コース情報IDに紐づく申込状況を検索します。
+   *
+   * @param studentCourseIds 受講生コース情報ID
+   * @return 受講生コース情報IDに紐づく申込状況
+   */
+  List<CourseStatus> searchCourseStatus(Set<String> studentCourseIds);
+
+  /**
+   * 指定された条件に合致する受講生を検索します。
+   *
+   * @param condition 検索条件
+   * @return 条件に合致する受講生
+   */
+  List<Student> searchByCondition(StudentSearchCondition condition);
+
+  /**
    * 受講生IDに紐づく受講生コース情報を検索します。
    *
    * @param studentid 受講生ID
@@ -46,8 +68,7 @@ public interface StudentRepository {
   List<StudentCourse> searchStudentCourse(String studentid);
 
   /**
-   * 受講生を新規登録します。
-   * IDに関しては自動採番を行う。
+   * 受講生を新規登録します。 IDに関しては自動採番を行う。
    *
    * @param student 受講生
    */
@@ -62,6 +83,13 @@ public interface StudentRepository {
   void registerStudentCourse(StudentCourse studentCourse);
 
   /**
+   * 申込状況を新規登録します。 IDに関しては自動採番を行う。
+   *
+   * @param courseStatus 申込状況
+   */
+  void registerCourseStatus(CourseStatus courseStatus);
+
+  /**
    * 受講生を更新します。
    *
    * @param student 受講生
@@ -74,5 +102,12 @@ public interface StudentRepository {
    * @param studentCourse 受講生コース情報
    */
   void updateStudentCourse(StudentCourse studentCourse);
+
+  /**
+   * 申込状況を更新します。
+   *
+   * @param courseStatus 申込状況
+   */
+  void updateCourseStatus(CourseStatus courseStatus);
 
 }
