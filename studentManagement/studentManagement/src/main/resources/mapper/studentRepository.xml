@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="raisetech.studentManagement.repository.StudentRepository">
   <!-- 受講生の全件検索 -->
   <select id="search" resultType="raisetech.studentManagement.data.Student">
@@ -16,6 +17,62 @@
     SELECT * FROM students_courses
   </select>
 
+  <!-- 申込状況の全件検索 -->
+  <select id="searchCourseStatusList"
+    resultType="raisetech.studentManagement.data.CourseStatus">
+    SELECT *
+    FROM course_status
+  </select>
+
+  <!-- 受講生コース情報のIDに紐づく申込状況の検索 -->
+  <select id="searchCourseStatus"
+    parameterType="java.util.Set"
+    resultType="raisetech.studentManagement.data.CourseStatus">
+    SELECT *
+    FROM course_status
+    WHERE student_course_id IN
+    <foreach item="id" collection="studentCourseIds" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </select>
+
+  <!-- 指定条件に合致する受講生の検索 -->
+  <select id="searchByCondition"
+    parameterType="raisetech.studentManagement.dto.StudentSearchCondition"
+    resultType="raisetech.studentManagement.data.Student">
+    SELECT DISTINCT s.*
+    FROM students s
+    <where>
+      <if test="name != null and name != ''">
+        AND s.name LIKE CONCAT('%', #{name}, '%')
+      </if>
+      <if test="kananame != null and kananame != ''">
+        AND s.kananame LIKE CONCAT('%', #{kananame}, '%')
+      </if>
+      <if test="nickname != null and nickname != ''">
+        AND s.nickname LIKE CONCAT('%', #{nickname}, '%')
+      </if>
+      <if test="email != null and email != ''">
+        AND s.email LIKE CONCAT('%', #{email}, '%')
+      </if>
+      <if test="address != null and address != ''">
+        AND s.address = #{address}
+      </if>
+      <if test="minAge != null">
+        AND s.age &gt;= #{minAge}
+      </if>
+      <if test="maxAge != null">
+        AND s.age &lt;= #{maxAge}
+      </if>
+      <if test="gender != null and gender != ''">
+        AND s.gender = #{gender}
+      </if>
+      <if test="remark != null and remark != ''">
+        AND s.remark LIKE CONCAT('%', #{remark}, '%')
+      </if>
+    </where>
+  </select>
+
   <!-- 受講生コースの検索 -->
   <select id="searchStudentCourse" resultType="raisetech.studentManagement.data.StudentCourse">
     SELECT * FROM students_courses WHERE student_id = #{studentid}
@@ -24,7 +81,8 @@
   <!-- 受講生の登録 -->
   <insert id="registerStudent" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO students(name, kananame, nickname, email, address, age, gender, remark, is_deleted)
-    VALUES (#{name}, #{kanaName}, #{nickname}, #{email}, #{address}, #{age}, #{gender}, #{remark}, false)
+    VALUES (#{name}, #{kanaName}, #{nickname}, #{email}, #{address}, #{age}, #{gender}, #{remark},
+    false)
   </insert>
 
   <!-- 受講生コースの登録 -->
@@ -33,15 +91,30 @@
     VALUES (#{studentId}, #{courseName}, #{courseStartAt}, #{courseEndAt})
   </insert>
 
+  <!-- 申込状況の新規登録 -->
+  <insert id="registerCourseStatus" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO course_status (student_course_id, status)
+    VALUES (#{studentCourseId}, #{status})
+  </insert>
+
   <!-- 受講生の更新 -->
   <update id="updateStudent">
     UPDATE students
-    SET name = #{name}, kananame = #{kanaName}, nickname = #{nickname}, email = #{email}, address = #{address}, age = #{age}, gender = #{gender}, remark = #{remark}, is_deleted = #{isDeleted} WHERE id = #{id}
+    SET name = #{name}, kananame = #{kanaName}, nickname = #{nickname}, email = #{email}, address =
+    #{address}, age = #{age}, gender = #{gender}, remark = #{remark}, is_deleted = #{isDeleted}
+    WHERE id = #{id}
   </update>
 
   <!-- 受講生コースの更新 -->
   <update id="updateStudentCourse">
     UPDATE students_courses
     SET course_name = #{courseName} WHERE id = #{id}
+  </update>
+
+  <!-- 申込状況の更新 -->
+  <update id="updateCourseStatus">
+    UPDATE course_status
+    SET status = #{status}
+    WHERE id = #{id}
   </update>
 </mapper>

@@ -3,35 +3,28 @@ package raisetech.studentManagement.data;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import java.time.LocalDateTime;
 import lombok.Data;
 
 /**
- * 受講生コース情報を表すデータクラスです。
+ * 申込状況を表すデータクラスです。
  */
 @Schema(description = "受講生コース情報")
 @Data
-public class StudentCourse {
+public class CourseStatus {
 
   @Pattern(regexp = "^\\d+$", message = "数字のみ入力するようにしてください。")
-  private String id;
+  private String id; // 主キー
 
   /**
-   * 受講生のID。
+   * 受講生コースID。
    */
   @Pattern(regexp = "^\\d+$", message = "数字のみ入力するようにしてください。")
-  private String studentId;
-
-  @NotBlank(message = "コース名を入力してください。")
-  private String courseName;
+  private String studentCourseId;
 
   /**
-   * 受講開始日。
+   * 申込ステータス（仮申込、本申込、受講中、受講終了）。
    */
-  private LocalDateTime courseStartAt;
+  @NotBlank(message = "申し込み状況を入力してください。")
+  private String status;
 
-  /**
-   * 受講終了予定日。
-   */
-  private LocalDateTime courseEndAt;
 }

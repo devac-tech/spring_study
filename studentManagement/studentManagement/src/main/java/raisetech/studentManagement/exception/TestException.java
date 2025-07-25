@@ -1,5 +1,11 @@
 package raisetech.studentManagement.exception;
 
+/**
+ * アプリケーション内で使用されるカスタム例外クラスです。
+ * <p>
+ * 特定のエラーロジックに応じて例外をスローし、例外ハンドラによって処理されます。
+ * </p>
+ */
 public class TestException extends RuntimeException {
 
   public TestException() {
@@ -18,7 +24,8 @@ public class TestException extends RuntimeException {
     super(cause);
   }
 
-  protected TestException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+  protected TestException(String message, Throwable cause, boolean enableSuppression,
+      boolean writableStackTrace) {
     super(message, cause, enableSuppression, writableStackTrace);
   }
 }
